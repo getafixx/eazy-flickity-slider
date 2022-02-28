@@ -27,33 +27,10 @@ Unfortunately, there are not currently any controls for the slider built into th
 
 ##WordPress Requirements
 Requires at least: 4.5  
-Tested up to: 4.5.3  
+Tested up to: 5.9.1  
 
 ##Changelog
-= 1.2.0 =
-*Update shortcode function to declare width and height of shortcode
-*Remove is front page conditional from shortcode
-*Remove outdated variable names 
-
-= 1.1.2 =
-Update CSS for gallery-cell.
-
-= 1.1.1 =
-Update eazy_flickity_slider_shortcode.php to use a variable to store the array from wp_get_attachment_image_src on line ~64.
-
-= 1.1 =
-Add flickity.shortcode.dimensions.js to insert the inline style for shortcodes height and width
-
-= 1.0.2 =  
-Add conditional statement to shortcode to prevent height and width form showing when not set
-
-Remove escaped quote from readme
-
-Add Lazy Load to homepage JS
-
-Remove repetitive CSS
-
-= 1.0.1 =  
+= 1.0 =  
 First version
 
 

@@ -5,10 +5,11 @@
  * Licensed GPLv3 for open source use
  */
 
-jQuery('.flickity-shortcode').flickity({
-autoPlay: true,
-cellAlign: 'center',
-contain: true,
-imagesLoaded: true,
-wrapAround: true,
+/* jQuery('.flickity-shortcode').flickity({
+    autoPlay: false,
+    imagesLoaded: true,
+    wrapAround: true,
+    pageDots: false,
+    percentPosition: false,
 });
+ */

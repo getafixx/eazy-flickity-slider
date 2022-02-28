@@ -5,15 +5,16 @@
  * Licensed GPLv3 for open source use
  */
 
-jQuery('.eazy-flickity-homepage-slider').flickity({
- // options
-autoPlay: true,
-cellAlign: 'center',
-contain: true,
-imagesLoaded: true,
-//freeScroll: true,
-lazyLoad: true,
-wrapAround: true,
-//cellSelector: '.gallery-cell',
-//setGallerySize: false
+/* jQuery('.eazy-flickity-homepage-slider').flickity({
+    // options
+    //autoPlay: true,
+    cellAlign: 'center',
+    //contain: true,
+    imagesLoaded: true,
+    //freeScroll: true,
+    //lazyLoad: true,
+    wrapAround: true,
+    //cellSelector: '.gallery-cell',
+    //setGallerySize: false
 });
+ */
