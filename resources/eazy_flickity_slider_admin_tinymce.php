@@ -8,6 +8,8 @@ if ('is_admin') {
 
   //create html to display slider
   function eazy_flickity_slider_admin_tinymce_html(){ ?>
+  
+  
   <div id="select_eazy_slider_shortcode" style="display:none;">
     
     <div class="eazy_slider_shortcode_form_display">

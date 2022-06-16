@@ -5,16 +5,20 @@
  * Licensed GPLv3 for open source use
  */
 
-/* jQuery('.eazy-flickity-homepage-slider').flickity({
-    // options
-    //autoPlay: true,
-    cellAlign: 'center',
-    //contain: true,
-    imagesLoaded: true,
-    //freeScroll: true,
-    //lazyLoad: true,
-    wrapAround: true,
-    //cellSelector: '.gallery-cell',
-    //setGallerySize: false
+function updateFlickityHomepageSliders() {
+    var $slider1 = jQuery('#slider-home-page-1').flickity(options);
+    var $slider2 = jQuery('#slider-home-page-2').flickity(options);
+
+}
+
+jQuery(window).on('resize', function () {
+    // console.log("resize")
+    updateFlickityHomepageSliders()
 });
- */
+
+
+jQuery(document).ready(function () {
+    // console.log("ready")
+    updateFlickityHomepageSliders()
+
+});

@@ -148,38 +148,38 @@ https://flickity.metafizzy.co
 }
 
 /***************************************************/
+/* custom css */
 
-/* * { box-sizing: border-box; }
- */
 
- .carousel {
-  max-height: 600px;
+/* .carousel-cell {
   display: block;
-} 
-
-.carousel img {
-  display: block;
-  max-height: calc(40vh);
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 60%;
+  height: auto;
 }
 
-@media screen and ( min-width: 768px ) {
-  .carousel img {
-    max-height: calc(60vh);
+@media screen and (max-width: 780px) {
+  .carousel-cell {
+    margin: auto;
+    width: 100%;
   }
 }
+ */
 
-
-.carousel-cell  {
-    padding-left: 10px;
-    padding-right: 10px;
-    margin-left: 10px;
-    margin-right: 10px;
+.flex-main {
+  display: flex;
+  flex-direction: column;
+  height: calc(62vh);
 }
 
-.carousel-cell:hover .flickity-overlay {
-  opacity: 1;
+.flex-1 {
+  flex: 1 1 0%;
 }
 
+.overflow-auto {
+  overflow: unset;
+}
 
 .center {
   /* display: flex; */
@@ -192,6 +192,52 @@ https://flickity.metafizzy.co
   /* border: 1px solid; */
   object-fit: contain;
 }
+
+.carousel-cell {
+
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 60%;
+  max-height: 600px;
+  height: calc(61vh);
+}
+
+.carousel-cell img {
+    display: block;
+    width: 100%;
+    max-height: calc(60vh);
+}
+
+@media screen and (max-width: 768px) {
+  .carousel-cell {
+    margin: auto;
+    width: 100%;
+    max-height: 320px;
+    height: calc(33vh);
+  }
+  
+ .carousel-cell img {
+    display: block;
+    max-height: 320px;
+    width: 100%;
+    height: calc(30vh);
+  } 
+
+  .flex-main {
+    height: calc(33vh);
+  }
+
+}  
+
+
+
+/* .carousel-cell img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+ */
+
 
 .flickity-overlay {
   position: absolute;
@@ -206,7 +252,9 @@ https://flickity.metafizzy.co
   background-color: rgba(250, 248, 248, 0.616);
 }
 
-
+.carousel-cell:hover .flickity-overlay {
+  opacity: 1;
+}
 
 .text {
   color: rgb(0, 0, 0);
@@ -278,6 +326,13 @@ https://flickity.metafizzy.co
 }
 
 
+
+@media screen and (min-width: 768px) {
+  .carousel img {
+    height: auto;
+  }
+}
+
 .flkty-button {
   position: absolute;
   overflow: hidden;
@@ -289,20 +344,55 @@ https://flickity.metafizzy.co
   opacity: 0;
   display: none;
 }
- 
+
+@media (min-width: 667px) {
+  .flkty-button {
+    width: 10%;
+  }
+}
+
+.flkty-button-mask {
+  position: absolute;
+  top: 0;
+  width: 7%;
+  height: 8rem;
+  background: #ff0;
+  z-index: 3;
+  opacity: 0;
+  display: none;
+}
+
+@media (min-width: 667px) {
+  .flkty-button-mask {
+    width: 10%;
+  }
+}
+
+.flkty-button-mask.is-left {
+  left: 0;
+}
+
+.flkty-button-mask.is-right {
+  right: 0;
+}
+
 
 .slider1, .slider2 {
   padding-bottom: 10px;
   padding-top: 10px;
 }
 
+
 .carousel-cell.is-previous:hover {
+
   cursor: url("/wp-content/plugins/robcrosse-eazy-flickity-slider/resources/css/small-l.png") 50 50, auto;
+  ;
 }
 
 .carousel-cell.is-next:hover {
   cursor: url("/wp-content/plugins/robcrosse-eazy-flickity-slider/resources/css/small-r.png") 50 50, auto;
 }
+
 
 /* no circle */
 .flickity-button {
@@ -339,13 +429,3 @@ https://flickity.metafizzy.co
 .flickity-button:hover {
   background: none !important;
 }
-
-
-.visible-now{
- border: 4px springgreen solid; 
-}
-
-/* .is-visible {
- /* border: 1px rgb(236, 22, 129) solid;  * /
- background: chartreuse;
-} */

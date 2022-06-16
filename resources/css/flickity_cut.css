@@ -1,0 +1,263 @@
+
+.flex-main {
+  display: flex;
+  flex-direction: column;
+  height: calc(62vh);
+}
+
+.flex-1 {
+  flex: 1 1 0%;
+}
+
+.overflow-auto {
+  overflow: unset;
+}
+
+.center {
+  /* display: flex; */
+  align-items: center;
+  justify-content: center;
+}
+
+
+.img-overlay-image {
+  /* border: 1px solid; */
+  object-fit: contain;
+}
+
+.carousel-cell {
+
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 60%;
+  max-height: 600px;
+  height: calc(61vh);
+}
+
+.carousel-cell img {
+    display: block;
+    width: 100%;
+    max-height: calc(60vh);
+}
+
+@media screen and (max-width: 768px) {
+  .carousel-cell {
+    margin: auto;
+    width: 100%;
+    max-height: 320px;
+    height: calc(33vh);
+  }
+  
+ .carousel-cell img {
+    display: block;
+    max-height: 320px;
+    width: 100%;
+    height: calc(30vh);
+  } 
+
+  .flex-main {
+    height: calc(33vh);
+  }
+
+}  
+
+
+
+/* .carousel-cell img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+ */
+
+
+.flickity-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0.5%;
+  right: 0.5%;
+  height: 100%;
+  width: 99%;
+  opacity: 0;
+  transition: .5s ease;
+  background-color: rgba(250, 248, 248, 0.616);
+}
+
+.carousel-cell:hover .flickity-overlay {
+  opacity: 1;
+}
+
+.text {
+  color: rgb(0, 0, 0);
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.text h1, .text h2, .text h3, .text h4, .text h5, .text p {
+  color: rgb(0, 0, 0);
+}
+
+.text h1 {
+  font-size: 3.75rem !important;
+  line-height: 4rem !important;
+}
+
+.text h2 {
+  font-size: 3.25rem !important;
+  line-height: 3.5rem !important;
+}
+
+.text h3 {
+  font-size: 3.0rem !important;
+  line-height: 3.25rem !important;
+}
+
+.text h4 {
+  font-size: 2.75rem !important;
+  line-height: 3.0rem !important;
+}
+
+.text h5 {
+  font-size: 2.75rem !important;
+  line-height: 3.0rem !important;
+}
+
+.text p {
+  font-size: 2.75rem !important;
+  line-height: 3.0rem !important;
+}
+
+@media screen and (max-width: 768px) {
+  .text h1 {
+    font-size: 1.75rem !important;
+    line-height: 2.0rem !important;
+  }
+
+  .text h2 {
+    font-size: 1.25rem !important;
+    line-height: 1.5rem !important;
+  }
+
+  .text h3 {
+    font-size: 1.0rem !important;
+    line-height: 1.25rem !important;
+  }
+
+  .text h4, .text h5, .text p {
+    font-size: 0.75rem !important;
+    line-height: 1rem !important;
+  }
+
+
+}
+
+
+
+@media screen and (min-width: 768px) {
+  .carousel img {
+    height: auto;
+  }
+}
+
+.flkty-button {
+  position: absolute;
+  overflow: hidden;
+  background: rgb(243, 5, 5);
+  top: 0;
+  height: 100%;
+  width: 7%;
+  z-index: 3;
+  opacity: 0;
+  display: none;
+}
+
+@media (min-width: 667px) {
+  .flkty-button {
+    width: 10%;
+  }
+}
+
+.flkty-button-mask {
+  position: absolute;
+  top: 0;
+  width: 7%;
+  height: 8rem;
+  background: #ff0;
+  z-index: 3;
+  opacity: 0;
+  display: none;
+}
+
+@media (min-width: 667px) {
+  .flkty-button-mask {
+    width: 10%;
+  }
+}
+
+.flkty-button-mask.is-left {
+  left: 0;
+}
+
+.flkty-button-mask.is-right {
+  right: 0;
+}
+
+
+.slider1, .slider2 {
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+
+.carousel-cell.is-previous:hover {
+
+  cursor: url("/wp-content/plugins/robcrosse-eazy-flickity-slider/resources/css/small-l.png") 50 50, auto;
+  ;
+}
+
+.carousel-cell.is-next:hover {
+  cursor: url("/wp-content/plugins/robcrosse-eazy-flickity-slider/resources/css/small-r.png") 50 50, auto;
+}
+
+
+/* no circle */
+.flickity-button {
+  background: transparent;
+}
+
+/* big previous & next buttons */
+.flickity-prev-next-button {
+  width: 100px;
+  height: 100px;
+}
+
+
+@media (max-width: 800px) {
+
+
+  .flickity-prev-next-button {
+    width: 50px;
+    height: 50px;
+    fill: white;
+  }
+}
+
+/* icon color */
+.flickity-button-icon {
+  fill: white;
+}
+
+/* hide disabled button */
+.flickity-button:disabled {
+  display: none;
+}
+
+.flickity-button:hover {
+  background: none !important;
+}

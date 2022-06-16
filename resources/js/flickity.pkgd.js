@@ -934,6 +934,7 @@
   };
 
   proto.select = function () {
+    this.parent.checkVisibility();
     this.cells.forEach(function (cell) {
       cell.select();
     });
@@ -1084,6 +1085,7 @@
       this.positionSlider();
       this.dispatchEvent('settle', null, [this.selectedIndex]);
     }
+    this.checkVisibility();
   };
 
   proto.shiftWrapCells = function (x) {
@@ -1460,6 +1462,8 @@
 
   proto.updateSlides = function () {
     this.slides = [];
+    this.visible = [];
+
     if (!this.cells.length) {
       return;
     }
@@ -1916,6 +1920,164 @@
     // get cell from element
     return this.getCell(selector);
   };
+
+
+  proto.checkVisibility = function () {
+    this.visible = []
+
+    changeSlideClasses(this.previousSlide, "remove", "is-previous");
+    changeSlideClasses(this.nextSlide, "remove", "is-next");
+
+
+    var viewportX = this.viewport.getBoundingClientRect().x;
+    var viewportWidth = this.viewport.offsetWidth;
+    var typeId;
+    const visible = []
+    this.cells.forEach(function (cell) {
+      var cellX = cell.element.getBoundingClientRect().x - viewportX;
+      var isVisible = (
+        (cellX + cell.size.innerWidth > viewportX) && (cellX + cell.size.innerWidth < viewportWidth) ||
+        (cellX > viewportX) && (cellX < viewportWidth)
+      );
+
+      if (isVisible) {
+        typeId = cell.element.getAttribute('data-id');
+        visible.push(typeId);
+
+        cell.element.classList.add('is-visible');
+        cell.element.removeAttribute('aria-hidden');
+
+      } else {
+        cell.element.classList.remove('is-visible');
+        cell.element.setAttribute('aria-hidden', true);
+      }
+    });
+
+    // initializethis.visible = visible;
+    ////console.log("checkVisibility visable ids " + visible)
+    //console.log("checkVisibility visable ids " + visible)
+
+    if (this.selectedIndex == 0) {
+      this.prevNum = this.slides.length - 1;
+    } else {
+      this.prevNum = this.selectedIndex - 1;
+    }
+
+    if (this.selectedIndex == this.slides.length - 1) {
+      this.nextNum = 0;
+    } else {
+      this.nextNum = this.selectedIndex + 1;
+    }
+    //console.log("prevNum before change " + this.prevNum)
+
+    var last_prevNum = this.prevNum;
+    var last_nextNum = this.nextNum;
+
+
+    for (var n = 0; n < 4; ++n) {
+
+      //console.log("before n " + n + " before change prevNum " + this.prevNum + " last_prevNum " + last_prevNum)
+
+      vis = this.in_array(this.prevNum, visible, false)
+      //console.log(" prevNum = " + this.prevNum + " vis = " + vis)
+      //console.log(" visable ids " + visible)
+
+
+      if (vis) {
+        //console.log("************ is-visible prevNum " + this.prevNum + " last_prevNum " + last_prevNum)
+        last_prevNum = this.prevNum;
+        if (this.prevNum == 0) {
+          this.prevNum = this.slides.length - 1;
+        } else {
+          this.prevNum = this.prevNum - 1;
+        }
+        //console.log("New prevNum " + this.prevNum + " last_prevNum " + last_prevNum)
+
+
+      }
+      else {
+        //console.log(" ENDING prevNum " + this.prevNum)
+        this.prevNum = last_prevNum
+        //console.log("ENDING prevNum reset " + this.prevNum)
+        break;
+      }
+      //console.log("  prevNum " + this.prevNum)
+    }
+
+    for (var n = 0; n < 4; ++n) {
+
+      //console.log("before n " + n + " before change nextNum " + this.nextNum + " last_nextNum " + last_nextNum)
+
+      vis = this.in_array(this.nextNum, visible, false)
+      //console.log(" nextNum = " + this.nextNum + " vis = " + vis)
+      //console.log(" visable ids " + visible)
+
+      if (vis) {
+        //console.log("************ is-visible nextNum " + this.nextNum + " last_nextNum " + last_nextNum)
+        last_nextNum = this.nextNum;
+        if (this.nextNum == this.slides.length - 1) {
+          this.nextNum = 0;
+        } else {
+          this.nextNum = this.nextNum + 1;
+        }
+        //console.log("New nextNum " + this.nextNum + " last_nextNum " + last_nextNum)
+
+
+      }
+      else {
+        //console.log(" ENDING nextNum " + this.nextNum)
+        this.nextNum = last_nextNum
+        //console.log("ENDING nextNum reset " + this.nextNum)
+        break;
+      }
+      //console.log("  nextNum " + this.nextNum)
+    }
+
+
+    this.previousSlide = this.slides[this.prevNum];
+    this.nextSlide = this.slides[this.nextNum];
+
+    //console.log(" Total length " + this.slides.length + " selected " + this.selectedIndex)
+    //console.log("Next  -> " + this.nextNum + " Prev " + this.prevNum)
+    //console.log(this.slides.length + " selectedIndex -> " + this.selectedIndex + " nextNum -> " + this.nextNum + " prevNum-> " + this.prevNum)
+
+
+
+
+    // add classes
+    changeSlideClasses(this.previousSlide, "add", "is-previous");
+    changeSlideClasses(this.nextSlide, "add", "is-next");
+
+
+  };
+
+  proto.in_array = function (needle, haystack, strict) {
+    var key;
+
+    if (strict) {
+      for (key in haystack) {
+        if (!haystack.hasOwnProperty[key]) continue;
+
+        if (haystack[key] === needle) {
+          return true;
+        }
+      }
+    } else {
+
+      for (key in haystack) {
+        ////console.log(key + "  haystack " + haystack[key] + " *** " + needle)
+        //if (!haystack.hasOwnProperty[key]) continue;
+
+        if (haystack[key] == needle) {
+          //console.log(" TRUE " + key + "  haystack " + haystack[key] + " = " + needle)
+          return true;
+        }
+      }
+    }
+
+    return false;
+  };
+
 
   // -------------------------- events -------------------------- //
 
@@ -2758,6 +2920,8 @@
     // disable dragging if less than 2 slides. #278
     if (this.options.draggable == '>1') {
       this.isDraggable = this.slides.length > 1;
+    } else if (this.options.draggable === 'onOverflow') {
+      this.isDraggable = this.viewport.scrollWidth > this.viewport.offsetWidth;
     } else {
       this.isDraggable = this.options.draggable;
     }
@@ -2913,6 +3077,8 @@
 
     this.dragMoveTime = new Date();
     this.dispatchEvent('dragMove', event, [pointer, moveVector]);
+    this.checkVisibility();
+
   };
 
   proto.dragEnd = function (event, pointer) {
@@ -4394,7 +4560,7 @@
       }
 
       if (this.options.debug && console) {
-        console.log('progress: ' + message, image, elem);
+        // //console.log('progress: ' + message, image, elem);
       }
     };
 

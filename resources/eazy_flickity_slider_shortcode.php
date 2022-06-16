@@ -10,7 +10,7 @@ if (function_exists('eazy_flickity_slides')) {
     $atts = shortcode_atts(
       array(
         'post_type' => 'eazy_flickity_slide',
-        'order' => '',
+        'order' => 'ASC',
         'orderby' => '',
         'post_date' => '',
         'posts' => -1,
@@ -46,42 +46,97 @@ if (function_exists('eazy_flickity_slides')) {
     // The Query
     $eazyquery = new WP_Query($eazyoptions);
     $flickity_slides = array();
+    $home = is_front_page();
 
     // The Loop
     if ($eazyquery->have_posts()) {
-      //<div class="carousel" data-flickity='{ "imagesLoaded": true, "percentPosition": false, "wrapAround": true, "pageDots": false}'>
-      //Check if slider name is set, if it is set add slider name to id
-      $dataFlickity = '{ &quot;imagesLoaded&quot;: true, &quot;percentPosition&quot;: false, &quot;wrapAround&quot;: true, &quot;pageDots&quot;: false}';
+
+      $dataFlickity = "";
+
+
+      $debug = '<div id="flickity-debug" class="debug-box"></div>';
+      $section = '<section id="section-slider-' . $eazy_flickity_slider . '" class="pt-10">';
+
+
       if (isset($eazy_flickity_slider)) {
-        $sliderid = "slider-" . $eazy_flickity_slider . "";
-        $flickity_open = '<div class="carousel flickity-shortcode" id="' . $sliderid . '" data-flickity="' . $dataFlickity . '">';
+        $sliderid = "slider-" . $eazy_flickity_slider;
+
+        $flickity_open = $section . '<div class="flex-main carousel flickity-shortcode" id="' . $sliderid . '">';
       } else {
-        $flickity_open = '<div class="carousel flickity-shortcode" id="all-slides" data-flickity="' . $dataFlickity . '">';
+        $flickity_open = $section . '<div class="flex-main carousel flickity-shortcode" id="all-slides" data-flickity="' . $dataFlickity . '">';
       } //end if 
 
-      while ($eazyquery->have_posts()) {
-        $eazyquery->the_post();
-        $thumb_id = get_post_thumbnail_id();
-        $eazyimage_attributes = wp_get_attachment_image_src($thumb_id, 'full', true);
-        $flickity_slides[] = "<div class='carousel-cell'><img class='img-overlay-image' src='" . $eazyimage_attributes[0] . "' alt='" . get_post(get_post_thumbnail_id())->post_title . "'>  <div class='overlay'><div class='text'>Hello World</div></div></div>";
-      } //end while
+
+      //$flickity_slides = old_slider_code($eazyquery, $home);
+
+      $flickity_slides = current_slider_code($eazyquery, $home);
+
+      //restore original Post Data 
+      wp_reset_postdata();
+
+      // concatenate open, slides & close, return them as $slider
+      $slider = $flickity_open;
+      foreach ($flickity_slides as $key => $slide) {
+        $slider .= $slide;
+      }
 
       $flickity_close = '</div>'; //closing div from class "gallery js flickity"
-    } else {
-      // no slides found
-    } //end query
 
-    //restore original Post Data 
-    wp_reset_postdata();
+      $slider .= $flickity_close;
+      $slider .= '</section>';
 
-    // concatenate open, slides & close, return them as $slider
-    $slider = $flickity_open;
-    foreach ($flickity_slides as $key => $slide) {
-      $slider .= $slide;
+      return $slider;
     }
-    $slider .= $flickity_close;
-    return $slider;
   }
+
+  function current_slider_code($eazyquery, $home)
+  {
+    $flickity_slides = [];
+
+    $sliderid = 0;
+    while ($eazyquery->have_posts()) {
+
+
+
+      $eazyquery->the_post();
+      $the_content = get_the_content(); //apply_filters('the_content', get_the_content());
+      //echo   $debug_html;
+      $slider_post_url = get_field('slider_post_url');
+
+      $thumb_id = get_post_thumbnail_id();
+      $eazyimage_attributes = wp_get_attachment_image_src($thumb_id, 'full', true);
+
+
+
+      $sliderIdDataLink = "data-id='" .  $sliderid . "'";
+      if ($home) {
+        $dataLink = "";
+        if ($slider_post_url !== "")
+          $dataLink = "data-link='" .  $slider_post_url . "'";
+
+        $slideHtml = "<div class='carousel-cell flex-1 overflow-auto center' id='sliderid-" . $sliderid . "' " . $dataLink . " " . $sliderIdDataLink . ">";
+        $overlay_html = "<div class='flickity-overlay' id='overlay-text-" . $sliderid . "'> <div class='text'>" .  $the_content   . "</div> </div>";
+      } else {
+        $slideHtml = "<div class='carousel-cell flex-1 overflow-auto center' id='sliderid-" . $sliderid . "' " . $sliderIdDataLink . " >";
+        $overlay_html = "";
+      }
+      $slide_id_p = '<p>" . $sliderid . "</p>';
+      $image_url = "<img class='img-overlay-image' src='" . $eazyimage_attributes[0] . "' alt='" . $the_content . "'>";
+      $background_image = " style='background-image:url(" . $eazyimage_attributes[0] . ")'  ";
+      $slideHtml .= $image_url;
+      $slideHtml .= $overlay_html;
+      $slideHtml .= "</div>";
+
+
+      $flickity_slides[] = $slideHtml;
+
+      $sliderid++;
+    } //end while
+
+
+    return $flickity_slides;
+  }
+
 
 
   //add_action('wp_enqueue_scripts', 'eazy_flickity_shortcode_scripts_styles');
